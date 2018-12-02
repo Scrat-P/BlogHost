@@ -7,6 +7,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using BlogHost.DAL.Data;
 
 namespace BlogHost.WEB
 {
@@ -14,6 +17,14 @@ namespace BlogHost.WEB
     {
         public static void Main(string[] args)
         {
+            //var host = CreateWebHostBuilder(args).Build();
+
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            //}
+
+            //host.Run();
             CreateWebHostBuilder(args).Build().Run();
         }
 
