@@ -41,8 +41,12 @@ namespace BlogHost.WEB
                     Configuration.GetConnectionString("DefaultConnection"),
                     x => x.MigrationsAssembly("BlogHost.DAL")));
 
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            //services.AddIdentity<ApplicationUser, IdentityRole>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
 
