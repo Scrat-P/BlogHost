@@ -7,7 +7,9 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/ionicons.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        @RenderSection("css", false)
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -26,13 +28,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogHost.WEB</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">BlogHost</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><a asp-area="" asp-controller="Blog" asp-action="Index">My blogs</a></li>
+                        if (User.IsInRole("admin"))
+                        {
+                            <li><a asp-area="" asp-controller="User" asp-action="Index">Users</a></li>
+                        }
+                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -43,10 +51,6 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - BlogHost.WEB</p>
-        </footer>
     </div>
 
     <environment include="Development">

@@ -12,8 +12,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogHost.DAL.Data;
 using BlogHost.DAL.Entities;
+using BlogHost.DAL.Repositories;
+using BlogHost.DAL.RepositoryInterfaces;
+using BlogHost.BLL.Services;
+using BlogHost.BLL.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace BlogHost.WEB
 {
@@ -44,11 +49,20 @@ namespace BlogHost.WEB
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<IBlogService, BlogService>();
+            services.AddTransient<IPostService, PostService>();
+
+            // Add application repositories.
+            services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+
             //services.AddIdentity<ApplicationUser, IdentityRole>()
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
             //    .AddDefaultTokenProviders();
 
-            services.AddAutoMapper();
+            //services.AddAutoMapper();
+
+            Mapper.Initialize(cfg => cfg.AddProfiles(Assembly.GetAssembly(typeof(Startup))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
