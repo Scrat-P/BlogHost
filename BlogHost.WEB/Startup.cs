@@ -46,8 +46,8 @@ namespace BlogHost.WEB
                     Configuration.GetConnectionString("DefaultConnection"),
                     x => x.MigrationsAssembly("BlogHost.DAL")));
 
-            services.AddDefaultIdentity<ApplicationUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<ApplicationUser>()
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
@@ -56,9 +56,9 @@ namespace BlogHost.WEB
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             //services.AddAutoMapper();
 
@@ -84,7 +84,6 @@ namespace BlogHost.WEB
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseAuthentication();
 
             app.UseMvc(routes =>
