@@ -16,18 +16,18 @@ namespace BlogHost.BLL.Services
     {
         private readonly IPostRepository _postRepository;
         private readonly IBlogRepository _blogRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUserRepository _userRepository;
 
-        public PostService(UserManager<ApplicationUser> userManager, IPostRepository postRepository, IBlogRepository blogRepository)
+        public PostService(IUserRepository userRepository, IPostRepository postRepository, IBlogRepository blogRepository)
         {
             _postRepository = postRepository;
             _blogRepository = blogRepository;
-            _userManager = userManager;
+            _userRepository = userRepository;
         }
 
         private ApplicationUser GetUser(ClaimsPrincipal currentUser)
         {
-            return _userManager.GetUserAsync(currentUser).Result;
+            return _userRepository.GetUser(currentUser);
         }
 
         private bool HasAccess(int? postId, ClaimsPrincipal currentUser)
@@ -35,7 +35,7 @@ namespace BlogHost.BLL.Services
             PostDTO post = _postRepository.GetPost(postId).ToDTO();
 
             var user = GetUser(currentUser);
-            var userRoles = _userManager.GetRolesAsync(user).Result;
+            var userRoles = _userRepository.GetUserRoles(user.Id);
 
             return (user.Id == post.Author.Id || userRoles.Contains("admin") || userRoles.Contains("moderator"));
         }

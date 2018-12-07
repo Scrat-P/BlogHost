@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BlogHost.DAL.Data;
@@ -20,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using BlogHost.BLL.Mappers;
+using BlogHost.WEB.Models.MappingProfiles;
 
 namespace BlogHost.WEB
 {
@@ -57,6 +53,7 @@ namespace BlogHost.WEB
             // Add application repositories.
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -64,7 +61,10 @@ namespace BlogHost.WEB
 
             //services.AddAutoMapper();
 
-            Mapper.Initialize(cfg => cfg.AddProfiles(Assembly.GetAssembly(typeof(UserDTOProfile))));
+            Mapper.Initialize(cfg => cfg.AddProfiles(
+                Assembly.GetAssembly(typeof(UserDTOProfile)),
+                Assembly.GetAssembly(typeof(UserVMProfile)),
+                Assembly.GetAssembly(typeof(Startup))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -92,7 +92,7 @@ namespace BlogHost.WEB
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Blog}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

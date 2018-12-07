@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using BlogHost.WEB.Models;
 using BlogHost.DAL.Entities;
 using BlogHost.DAL.Data;
+using BlogHost.BLL.Mappers;
+using BlogHost.WEB.Models.MappingProfiles;
 
 namespace BlogHost.WEB.Controllers
 {
@@ -29,7 +31,7 @@ namespace BlogHost.WEB.Controllers
                 .Include(element => element.Comments)
                 .Where(element => element.Blog.Id == 1);
 
-            return View(posts);
+            return View(posts.ToDTO().ToVM());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

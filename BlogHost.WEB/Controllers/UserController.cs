@@ -10,7 +10,7 @@ using BlogHost.WEB.Models;
 
 namespace CustomIdentityApp.Controllers
 {
-    //[Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin")]
     public class UserController : Controller
     {
         private readonly IUserService _userService;
