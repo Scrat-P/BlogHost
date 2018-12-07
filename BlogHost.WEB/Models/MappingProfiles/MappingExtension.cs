@@ -47,5 +47,13 @@ namespace BlogHost.WEB.Models.MappingProfiles
             => Mapper.Map<IEnumerable<TagViewModel>>(dto);
         public static IEnumerable<TagDTO> ToDTO(this IEnumerable<TagViewModel> vm)
             => Mapper.Map<IEnumerable<TagDTO>>(vm);
+
+
+        public static UserViewModel ToVM(this UserDTO dto) => Mapper.Map<UserViewModel>(dto);
+        public static UserDTO ToDTO(this UserViewModel vm) => Mapper.Map<UserDTO>(vm);
+        public static IEnumerable<UserViewModel> ToVM(this IEnumerable<UserDTO> dto)
+            => Mapper.Map<IEnumerable<UserViewModel>>(dto);
+        public static IEnumerable<UserDTO> ToDTO(this IEnumerable<UserViewModel> vm)
+            => Mapper.Map<IEnumerable<UserDTO>>(vm);
     }
 }

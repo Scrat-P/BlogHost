@@ -19,6 +19,7 @@ using BlogHost.BLL.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using BlogHost.BLL.Mappers;
 
 namespace BlogHost.WEB
 {
@@ -51,6 +52,7 @@ namespace BlogHost.WEB
 
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IUserService, UserService>();
 
             // Add application repositories.
             services.AddTransient<IBlogRepository, BlogRepository>();
@@ -62,7 +64,7 @@ namespace BlogHost.WEB
 
             //services.AddAutoMapper();
 
-            Mapper.Initialize(cfg => cfg.AddProfiles(Assembly.GetAssembly(typeof(Startup))));
+            Mapper.Initialize(cfg => cfg.AddProfiles(Assembly.GetAssembly(typeof(UserDTOProfile))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -90,7 +92,7 @@ namespace BlogHost.WEB
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Blog}/{action=Index}/{id?}");
             });
         }
     }

@@ -4,34 +4,32 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using BlogHost.WEB.Models;
+using BlogHost.DAL.Entities;
+using BlogHost.DAL.Data;
 
 namespace BlogHost.WEB.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
-        }
+            IEnumerable<Post> posts = _context.Posts
+                .Include(element => element.Author)
+                .Include(element => element.Blog)
+                .Include(element => element.Likes)
+                .Include(element => element.Comments)
+                .Where(element => element.Blog.Id == 1);
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(posts);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

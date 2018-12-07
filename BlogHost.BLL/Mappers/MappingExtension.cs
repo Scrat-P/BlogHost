@@ -47,5 +47,12 @@ namespace BlogHost.BLL.Mappers
             => Mapper.Map<IEnumerable<Tag>>(dto);
         public static IEnumerable<TagDTO> ToDTO(this IEnumerable<Tag> entity)
             => Mapper.Map<IEnumerable<TagDTO>>(entity);
+
+        public static ApplicationUser ToEntity(this UserDTO dto) => Mapper.Map<ApplicationUser>(dto);
+        public static UserDTO ToDTO(this ApplicationUser entity) => Mapper.Map<UserDTO>(entity);
+        public static IEnumerable<ApplicationUser> ToEntity(this IEnumerable<UserDTO> dto)
+            => Mapper.Map<IEnumerable<ApplicationUser>>(dto);
+        public static IEnumerable<UserDTO> ToDTO(this IEnumerable<ApplicationUser> entity)
+            => Mapper.Map<IEnumerable<UserDTO>>(entity);
     }
 }

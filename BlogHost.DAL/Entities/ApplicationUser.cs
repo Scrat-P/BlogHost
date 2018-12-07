@@ -7,6 +7,5 @@ namespace BlogHost.DAL.Entities
 {
     public class ApplicationUser : IdentityUser
     {
-
     }
 }

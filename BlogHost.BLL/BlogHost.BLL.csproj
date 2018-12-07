@@ -18,8 +18,4 @@
     <ProjectReference Include="..\BlogHost.DAL\BlogHost.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTO\" />
-  </ItemGroup>
-
 </Project>
