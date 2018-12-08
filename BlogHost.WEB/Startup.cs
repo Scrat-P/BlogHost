@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using BlogHost.BLL.Mappers;
 using BlogHost.WEB.Models.MappingProfiles;
+using BlogHost.WEB.Hubs;
 
 namespace BlogHost.WEB
 {
@@ -49,11 +50,13 @@ namespace BlogHost.WEB
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICommentService, CommentService>();
 
             // Add application repositories.
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -67,6 +70,7 @@ namespace BlogHost.WEB
                 Assembly.GetAssembly(typeof(Startup))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +91,11 @@ namespace BlogHost.WEB
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<CommentHub>("/comment");
+            });
 
             app.UseMvc(routes =>
             {

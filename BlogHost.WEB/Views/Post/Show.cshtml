@@ -38,8 +38,8 @@
 
                         <div class="post-icons-area">
                             <ul class="post-icons">
-                                <li><a href="#"><i class="ion-heart"></i>@Model.Likes.Count()</a></li>
-                                <li><a href="#comm"><i class="ion-chatbubble"></i>@Model.Comments.Count()</a></li>
+                                <li><a href="#"><i class="ion-heart"></i><acronym id="likesCountTop">@Model.Likes.Count()</acronym></a></li>
+                                <li><a href="#comm"><i class="ion-chatbubble"></i><acronym id="commentsCountTop">@Model.Comments.Count()</acronym></a></li>
                             </ul>
 
                             <ul class="icons">
@@ -117,78 +117,62 @@
         <div class="row">
 
             <div class="col-lg-8 col-md-12">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <h4><b>POST COMMENT</b></h4>
-                    <div class="comment-form">
-                        <form action="@($"{Model.Id}/Comments")" method="post">
-                            <div class="row">
+                <div id="commentList">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <h4><b>POST COMMENT</b></h4>
+                        <div class="comment-form">
+                            <form asp-action="Add" asp-controller="Comment" asp-route-postId="@Model.Id" method="post">
+                                <div class="row">
 
-                                <div class="col-sm-12">
-                                    <textarea class="form-control" placeholder="Enter your comment" id="comment" name="Text" rows="5"></textarea>
-                                </div><!-- col-sm-12 -->
-                                <div class="col-sm-12">
-                                    <button class="submit-btn" type="submit"><b>POST COMMENT</b></button>
-                                </div><!-- col-sm-12 -->
+                                    <div class="col-sm-12">
+                                        <textarea class="form-control" placeholder="Enter your comment" id="Text" rows="5"></textarea>
+                                        <input id="PostId" type="hidden" value="@Model.Id" />
+                                    </div><!-- col-sm-12 -->
+                                    <div class="col-sm-12">
+                                        <button class="submit-btn" type="submit" id="addCommentButton"><b>POST COMMENT</b></button>
+                                    </div><!-- col-sm-12 -->
 
-                            </div><!-- row -->
-                        </form>
-                    </div><!-- comment-form -->
-                }
-                <h4><b>COMMENTS(@Model.Comments.Count())</b></h4>
+                                </div><!-- row -->
+                            </form>
+                        </div><!-- comment-form -->
+                    }
+                    <h4>
+                        <b>COMMENTS(<acronym id="commentCount">@Model.Comments.Count()</acronym>)</b>
+                    </h4>
 
-                @foreach (CommentViewModel comment in Model.Comments)
-                {
-                    <div class="commnets-area">
 
-                        <div class="comment">
+                    @foreach (CommentViewModel comment in Model.Comments)
+                    {
+                        <div class="commnets-area">
+                            <div class="comment">
 
-                            <div class="post-info">
+                                <div class="post-info">
 
-                                <div class="left-area">
-                                    <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
-                                </div>
+                                    <!--<div class="left-area">
+                        <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
+                    </div>-->
 
-                                <div class="middle-area">
-                                    <a class="name" href="#"><b>@comment.Author.UserName</b></a>
-                                    <h6 class="date">@comment.Created</h6>
-                                </div>
+                                    <div class="pull-left">
+                                        <a class="name" href="#"><b>@comment.Author.UserName</b></a>
+                                        <h6 class="date">on @comment.Created</h6>
+                                    </div>
 
-                            </div><!-- post-info -->
+                                </div><!-- post-info -->
 
-                            <p>@comment.Text</p>
+                                <p>@comment.Text</p>
 
-                        </div>
+                            </div>
+                        </div><!-- commnets-area -->
+                    }
+                    <div id="lastComment"></div>
 
-                    </div><!-- commnets-area -->
-
-                }
-
+                    <script src="~/js/dateformat.js"></script>
+                    <script src="~/js/comment.js"></script>
+                </div>
             </div><!-- col-lg-8 col-md-12 -->
 
-            <div id="commen"></div>
         </div><!-- row -->
 
     </div><!-- container -->
 </section>
-
-
-<script src="~/js/signalr.min.js"></script>
-<script>
-    let hubUrl = "@($"/Post/Show/{Model.Id}/Comments")";
-    const hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(hubUrl)
-        .build();
-
-    // получение сообщения от сервера
-    hubConnection.on('Notify', function (comment) {
-
-        // создает элемент <p> для сообщения пользователя
-        let elem = document.createElement("p");
-        elem.appendChild(document.createTextNode(comment.text));
-
-        document.getElementById("commen").appendChild(elem);
-
-    });
-    hubConnection.start();
-</script>
