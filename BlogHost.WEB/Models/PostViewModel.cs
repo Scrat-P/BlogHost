@@ -9,7 +9,7 @@ namespace BlogHost.WEB.Models
     public class PostViewModel
     {
         public int Id { get; set; }
-        public ApplicationUser Author { get; set; }
+        public UserViewModel Author { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
         public int BlogId { get; set; }

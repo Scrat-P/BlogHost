@@ -9,7 +9,7 @@ namespace BlogHost.WEB.Models
     public class LikeViewModel
     {
         public int Id { get; set; }
-        public ApplicationUser Author { get; set; }
+        public UserViewModel Author { get; set; }
         public PostViewModel Post { get; set; }
     }
 }

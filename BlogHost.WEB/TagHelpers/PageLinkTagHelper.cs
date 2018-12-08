@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using BlogHost.WEB.Models;
 
-namespace BlogHost.TagHelpers
+namespace BlogHost.WEB.TagHelpers
 {
     public class PageLinkTagHelper : TagHelper
     {

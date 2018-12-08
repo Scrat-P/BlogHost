@@ -45,7 +45,11 @@ namespace BlogHost.DAL.Repositories
 
         public void Update(Post post)
         {
-            _context.Update(post);
+            Post databasePost = GetPost(post.Id);
+            databasePost.Title = post.Title;
+            databasePost.Text = post.Text;
+            databasePost.LastUpdated = DateTime.Now;
+            _context.Update(databasePost);
             Save();
         }
 

@@ -9,7 +9,7 @@ namespace BlogHost.BLL.DTO
     public class LikeDTO
     {
         public int Id { get; set; }
-        public ApplicationUser Author { get; set; }
+        public UserDTO Author { get; set; }
         public PostDTO Post { get; set; }
     }
 }

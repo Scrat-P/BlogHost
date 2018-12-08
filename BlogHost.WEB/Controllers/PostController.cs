@@ -14,6 +14,7 @@ using BlogHost.WEB.Models.MappingProfiles;
 
 namespace BlogHost.Controllers
 {
+    [Authorize]
     public class PostController : Controller
     {
         private readonly IBlogService _blogService;
@@ -83,7 +84,7 @@ namespace BlogHost.Controllers
         [AllowAnonymous]
         public IActionResult Show(int? id)
         {
-            PostViewModel post = _postService.GetPost(id, User).ToVM();
+            PostViewModel post = _postService.GetPost(id, User, false).ToVM();
             if (post == null)
             {
                 return NotFound();

@@ -24,12 +24,12 @@ namespace BlogHost.BLL.Services
             _userRepository = userRepository;
         }
 
-        private ApplicationUser GetUser(ClaimsPrincipal currentUser)
+        private UserDTO GetUser(ClaimsPrincipal currentUser)
         {
-            return _userRepository.GetUser(currentUser);
+            return _userRepository.GetUser(currentUser).ToDTO();
         }
 
-        private bool HasAccess(int? blogId, ClaimsPrincipal currentUser)
+        public bool HasAccess(int? blogId, ClaimsPrincipal currentUser)
         {
             BlogDTO blog = _blogRepository.GetBlog(blogId).ToDTO();
 
@@ -47,9 +47,9 @@ namespace BlogHost.BLL.Services
             }
         }
 
-        public BlogDTO GetBlog(int? id, ClaimsPrincipal currentUser)
+        public BlogDTO GetBlog(int? id, ClaimsPrincipal currentUser, bool checkAccess = true)
         {
-            if (!HasAccess(id, currentUser))
+            if (checkAccess && !HasAccess(id, currentUser))
             {
                 return null;
             }
@@ -58,10 +58,7 @@ namespace BlogHost.BLL.Services
 
         public void Edit(BlogDTO blog)
         {
-            BlogDTO databaseBlog = _blogRepository.GetBlog(blog.Id).ToDTO();
-            databaseBlog.Title = blog.Title;
-            databaseBlog.Description = blog.Description;
-            _blogRepository.Update(databaseBlog.ToEntity());
+            _blogRepository.Update(blog.ToEntity());
         }
 
         public void Create(BlogDTO blog, ClaimsPrincipal currentUser)
@@ -79,7 +76,7 @@ namespace BlogHost.BLL.Services
         {
             var user = GetUser(currentUser);
 
-            IEnumerable<BlogDTO> blogs = _blogRepository.GetBlogList(user).ToDTO();
+            IEnumerable<BlogDTO> blogs = _blogRepository.GetBlogList(user.ToEntity()).ToDTO();
             blogsCount = blogs.Count();
             IEnumerable<BlogDTO> blogsPerPage = blogs.Skip((page - 1) * pageSize).Take(pageSize);
 

@@ -64,7 +64,7 @@ namespace BlogHost.WEB.Controllers
         [AllowAnonymous]
         public IActionResult Show(int? id, int page = 1, int pageSize = 9)
         {
-            if (_blogService.GetBlog(id, User) == null)
+            if (_blogService.GetBlog(id, User, false) == null)
             {
                 return NotFound();
             }

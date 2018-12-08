@@ -1,5 +1,5 @@
-﻿@model PostViewModel
-
+﻿@inject IPostService PostService
+@model PostViewModel
 @{
     ViewData["Title"] = "Post details";
 }
@@ -45,16 +45,18 @@
                             <ul class="icons">
                                 <li>POST ACTIONS : </li>
                                 <li><a asp-controller="Blog" asp-action="Show" asp-route-id="@Model.Blog.Id" class="back-btn">Back to blog</a></li>
-                                <li><a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="info-btn">Edit</a></li>
-                                <li>
-                                    <form asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" style='display: inline-block;' method='post'>
-                                        <button type='submit' class='danger-btn' onclick="return confirm('Do you really want to delete this post?')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </li>
+                                @if (User.Identity.IsAuthenticated && PostService.HasAccess(Model.Id, User))
+                                {
+                                    <li><a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="info-btn">Edit</a></li>
+                                    <li>
+                                        <form asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" style='display: inline-block;' method='post'>
+                                            <button type='submit' class='danger-btn' onclick="return confirm('Do you really want to delete this post?')">
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </li>
+                                }
                             </ul>
-
                         </div>
 
                         <div class="post-footer post-info">

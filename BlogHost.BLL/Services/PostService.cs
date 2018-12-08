@@ -25,12 +25,12 @@ namespace BlogHost.BLL.Services
             _userRepository = userRepository;
         }
 
-        private ApplicationUser GetUser(ClaimsPrincipal currentUser)
+        private UserDTO GetUser(ClaimsPrincipal currentUser)
         {
-            return _userRepository.GetUser(currentUser);
+            return _userRepository.GetUser(currentUser).ToDTO();
         }
 
-        private bool HasAccess(int? postId, ClaimsPrincipal currentUser)
+        public bool HasAccess(int? postId, ClaimsPrincipal currentUser)
         {
             PostDTO post = _postRepository.GetPost(postId).ToDTO();
 
@@ -48,9 +48,9 @@ namespace BlogHost.BLL.Services
             }
         }
 
-        public PostDTO GetPost(int? id, ClaimsPrincipal currentUser)
+        public PostDTO GetPost(int? id, ClaimsPrincipal currentUser, bool checkAccess = true)
         {
-            if (!HasAccess(id, currentUser))
+            if (checkAccess && !HasAccess(id, currentUser))
             {
                 return null;
             }
@@ -59,11 +59,7 @@ namespace BlogHost.BLL.Services
 
         public void Edit(PostDTO post)
         {
-            PostDTO databasePost = _postRepository.GetPost(post.Id).ToDTO();
-            databasePost.Title = post.Title;
-            databasePost.Text = post.Text;
-            databasePost.LastUpdated = DateTime.Now;
-            _postRepository.Update(databasePost.ToEntity());
+            _postRepository.Update(post.ToEntity());
         }
 
         public void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId)
@@ -78,7 +74,7 @@ namespace BlogHost.BLL.Services
                 Created = currentTime,
                 LastUpdated = currentTime
             };
-            _postRepository.Create(post.ToEntity());
+            _postRepository.Create(databasePost.ToEntity());
         }
 
         public IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount)

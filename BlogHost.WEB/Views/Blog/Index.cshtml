@@ -35,12 +35,12 @@
                                 <div class="avatar-area">
                                     <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
                                     <div class="mid-area">
-                                        <a class="name" href="#"><b>@blog.Author</b></a>
+                                        <a class="name" href="#"><b>@blog.Author.UserName</b></a>
                                     </div>
                                     <div class="pull-right">
                                         <a asp-controller="Blog" asp-action="Edit" asp-route-id="@blog.Id" class="info-btn">Edit</a>
                                         <form asp-controller="Blog" asp-action="Delete" asp-route-id="@blog.Id" style='display: inline-block;' method='post'>
-                                            <button type='submit' class='danger-btn' onclick="return confirm('Do you really want to delete this task?')">
+                                            <button type='submit' class='danger-btn' onclick="return confirm('Do you really want to delete this blog?')">
                                                 Delete
                                             </button>
                                         </form>

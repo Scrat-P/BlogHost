@@ -9,8 +9,9 @@ namespace BlogHost.BLL.ServiceInterfaces
 {
     public interface IPostService
     {
+        bool HasAccess(int? postId, ClaimsPrincipal currentUser);
         void Delete(int? id, ClaimsPrincipal currentUser);
-        PostDTO GetPost(int? id, ClaimsPrincipal currentUser);
+        PostDTO GetPost(int? id, ClaimsPrincipal currentUser, bool checkAccess = true);
         void Edit(PostDTO post);
         void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId);
         IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount);

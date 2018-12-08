@@ -22,7 +22,7 @@ namespace BlogHost.DAL.Repositories
         {
             return _context.Blogs
                 .Include(author => author.Author)
-                .Where(author => author.Author == user);
+                .Where(author => author.Author.Id == user.Id);
         }
 
         public void Create(Blog blog)
@@ -42,7 +42,10 @@ namespace BlogHost.DAL.Repositories
 
         public void Update(Blog blog)
         {
-            _context.Update(blog);
+            Blog databaseBlog = GetBlog(blog.Id);
+            databaseBlog.Title = blog.Title;
+            databaseBlog.Description = blog.Description;
+            _context.Update(databaseBlog);
             Save();
         }
 
