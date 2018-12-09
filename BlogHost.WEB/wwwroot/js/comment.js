@@ -38,10 +38,14 @@ function createCommentBody(commentText, userName) {
 
 commentHubConnection.on("Add",
     function (postId, commentText, userName) {
+        alert(1)
         if (postId !== parseInt($("#PostId").val())) return;
+        alert(2)
 
-        const commentTextElement = document.getElementById("Text");
-        commentTextElement.innerHTML = "";
+        if (isAuthenticated) {
+            const commentTextElement = document.getElementById("Text");
+            commentTextElement.innerHTML = "";
+        }
 
         const commentCountElement = document.getElementById("commentCount");
         const count = parseInt(commentCountElement.innerHTML) + 1;
@@ -54,11 +58,15 @@ commentHubConnection.on("Add",
         const element = createCommentBody(commentText, userName);
 
         document.getElementById("commentList").insertBefore(element, document.getElementById("lastComment"));
-    });
+    }
+);
 
-const addCommentButton = document.getElementById("addCommentButton");
-addCommentButton.addEventListener("click",
-    function (event) {
-        commentHubConnection.invoke("Add", parseInt($("#PostId").val()), $("#Text").val());
-        event.preventDefault();
-    });
+if (isAuthenticated) {
+    const addCommentButton = document.getElementById("addCommentButton");
+    addCommentButton.addEventListener("click",
+        function (event) {
+            commentHubConnection.invoke("Add", parseInt($("#PostId").val()), $("#Text").val());
+            event.preventDefault();
+        }
+    );
+}

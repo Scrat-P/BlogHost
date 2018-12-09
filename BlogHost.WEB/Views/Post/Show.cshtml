@@ -39,13 +39,15 @@
                         <div class="post-icons-area">
                             <ul class="post-icons" style="font-size: 150%;">
                                 <li>
-                                    <a href="#"">
+                                    <a>
                                         <i type='submit' id="likeButton" class="ion-heart"></i>
                                         <!-- <a type='submit' id="likeButton"></a>
-    <!--<i class="ion-heart">class="glyphicon glyphicon-heart"</i>-->
+        <!--<i class="ion-heart">class="glyphicon glyphicon-heart"</i>-->
                                         <acronym id="likesCountTop">@Model.Likes.Count()</acronym>
                                     </a>
+                                    <input id="PostId" type="hidden" value="@Model.Id" />
                                     <input id="isLiked" name="isLiked" type="hidden" value="@PostService.IsLiked(Model.Id, User).ToString()" />
+                                    <input id="isAuthenticated" name="isAuthenticated" type="hidden" value="@User.Identity.IsAuthenticated.ToString()" />
                                 </li>
                                 <li><a href="#comm"><i class="ion-chatbubble"></i><acronym id="commentsCountTop">@Model.Comments.Count()</acronym></a></li>
                             </ul>
@@ -136,7 +138,6 @@
 
                                     <div class="col-sm-12">
                                         <textarea class="form-control" placeholder="Enter your comment" id="Text" rows="5"></textarea>
-                                        <input id="PostId" type="hidden" value="@Model.Id" />
                                     </div><!-- col-sm-12 -->
                                     <div class="col-sm-12">
                                         <button class="submit-btn" type="submit" id="addCommentButton"><b>POST COMMENT</b></button>

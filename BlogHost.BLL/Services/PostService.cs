@@ -98,6 +98,7 @@ namespace BlogHost.BLL.Services
 
         public bool IsLiked(int id, ClaimsPrincipal currentUser)
         {
+            if (!currentUser.Identity.IsAuthenticated) return false;
             return _postRepository.IsLiked(id, _userRepository.GetUser(currentUser));
         }
     }

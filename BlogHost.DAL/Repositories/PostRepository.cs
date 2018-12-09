@@ -40,6 +40,7 @@ namespace BlogHost.DAL.Repositories
 
             Post databasePost = GetPost(id);
             databasePost.Likes.Remove(like);
+            _context.Likes.Remove(like);
             _context.Posts.Update(databasePost);
             Save();
         }

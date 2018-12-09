@@ -20,14 +20,16 @@ namespace BlogHost.WEB.Hubs
 
         public async Task Like(int id, bool isLiked)
         {
-            if (!Context.User.Identity.IsAuthenticated) return;
-            if (isLiked)
+            if (Context.User.Identity.IsAuthenticated)
             {
-                _postService.Unlike(id, Context.User);
-            }
-            else
-            {
-                _postService.Like(id, Context.User);
+                if (isLiked)
+                {
+                    _postService.Unlike(id, Context.User);
+                }
+                else
+                {
+                    _postService.Like(id, Context.User);
+                }
             }
             await Clients.All.SendAsync("Like", id, isLiked);
         }
