@@ -38,9 +38,7 @@ function createCommentBody(commentText, userName) {
 
 commentHubConnection.on("Add",
     function (postId, commentText, userName) {
-        alert(1)
         if (postId !== parseInt($("#PostId").val())) return;
-        alert(2)
 
         if (isAuthenticated) {
             const commentTextElement = document.getElementById("Text");

@@ -135,9 +135,8 @@
                         <div class="comment-form">
                             <form asp-action="Add" asp-controller="Comment" asp-route-postId="@Model.Id" method="post">
                                 <div class="row">
-
                                     <div class="col-sm-12">
-                                        <textarea class="form-control" placeholder="Enter your comment" id="Text" rows="5"></textarea>
+                                        <textarea class="form-control" placeholder="Enter your comment" id="Text" name="Text" rows="5"></textarea>
                                     </div><!-- col-sm-12 -->
                                     <div class="col-sm-12">
                                         <button class="submit-btn" type="submit" id="addCommentButton"><b>POST COMMENT</b></button>
@@ -177,7 +176,7 @@
                     }
                     <div id="lastComment"></div>
 
-                    <script src="~/js/dateformat.js"></script>
+                    <script src="~/js/dateformat.js"></script> 
                     <script src="~/js/comment.js"></script>
                 </div>
             </div><!-- col-lg-8 col-md-12 -->

@@ -28,9 +28,8 @@ namespace BlogHost.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(int postId, string text)
+        public ActionResult Add(CommentViewModel comment, int postId)
         {
-            CommentViewModel comment = new CommentViewModel() { Text = text };
             _commentService.Create(comment.ToDTO(), User, postId);
             return RedirectToAction("Show", "Post", new { id = postId });
         }

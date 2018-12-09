@@ -6,11 +6,13 @@
     <title>@ViewData["Title"]</title>
 
     <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/ionicons.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         @RenderSection("css", false)
 
+        <script src="~/lib/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/signalr/signalr.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
