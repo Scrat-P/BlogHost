@@ -44,11 +44,11 @@ namespace BlogHost.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(PostViewModel viewModel)
+        public IActionResult Create(PostViewModel viewModel, ICollection<string> tags)
         {
             if (ModelState.IsValid)
             {
-                _postService.Create(viewModel.ToDTO(), User, viewModel.BlogId);
+                _postService.Create(viewModel.ToDTO(), User, viewModel.BlogId, tags);
 
                 return RedirectToAction("Show", "Blog", new { id = viewModel.BlogId });
             }
@@ -69,11 +69,11 @@ namespace BlogHost.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(PostViewModel viewModel)
+        public IActionResult Edit(PostViewModel viewModel, ICollection<string> tags)
         {
             if (ModelState.IsValid)
             {
-                _postService.Edit(viewModel.ToDTO());
+                _postService.Edit(viewModel.ToDTO(), tags);
 
                 return RedirectToAction("Show", "Post", new { id = viewModel.Id });
             }

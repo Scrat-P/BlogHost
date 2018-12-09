@@ -38,6 +38,7 @@
                                         <a class="name" href="#"><b>@blog.Author.UserName</b></a>
                                     </div>
                                     <div class="pull-right">
+                                        <a asp-controller="Post" asp-action="Create" asp-route-blogId="@blog.Id" class="success-btn">Add new post</a>
                                         <a asp-controller="Blog" asp-action="Edit" asp-route-id="@blog.Id" class="info-btn">Edit</a>
                                         <form asp-controller="Blog" asp-action="Delete" asp-route-id="@blog.Id" style='display: inline-block;' method='post'>
                                             <button type='submit' class='danger-btn' onclick="return confirm('Do you really want to delete this blog?')">

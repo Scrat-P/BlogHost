@@ -13,8 +13,8 @@ namespace BlogHost.DAL.RepositoryInterfaces
         void Unlike(int id, ApplicationUser user);
         bool IsLiked(int id, ApplicationUser user);
         Post GetPost(int? id);
-        void Create(Post post);
-        void Update(Post post);
+        void Create(Post post, ICollection<string> tags);
+        void Update(Post post, ICollection<string> tags);
         void Delete(int? id);
         void Save();
     }

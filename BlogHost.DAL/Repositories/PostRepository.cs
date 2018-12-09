@@ -55,9 +55,28 @@ namespace BlogHost.DAL.Repositories
                 .Where(element => element.Blog.Id == blogId);
         }
 
-        public void Create(Post post)
+        private Post AddTags(Post post, List<string> tags)
         {
+            List<PostTag> tagsCollection = new List<PostTag>();
+            foreach (string tag in tags)
+            {
+                Tag databaseTag = _context.Tags
+                    .FirstOrDefault(element => element.Name == tag);
+                if (databaseTag == null) databaseTag = new Tag { Name = tag };
+                tagsCollection.Add(new PostTag() { Tag = databaseTag, Post = post });
+            }
+
+            post.Tags = tagsCollection;
+            return post;
+        }
+
+        public void Create(Post post, ICollection<string> tags)
+        {
+            post = AddTags(post, tags.ToList());
+
+            var tagsCollection = post.Tags;
             _context.Posts.Add(post);
+            _context.AddRange(tagsCollection);
             Save();
         }
 
@@ -70,12 +89,38 @@ namespace BlogHost.DAL.Repositories
             Save();
         }
 
-        public void Update(Post post)
+        private Post DeleteTags(Post post, List<string> tags)
+        {
+            foreach (string tag in tags)
+            {
+                PostTag databasePostTag = _context.PostTags
+                    .Include(element => element.Tag)
+                    .ThenInclude(element => element.Posts)
+                    .FirstOrDefault(element => element.Tag.Name == tag && element.Post.Id == post.Id);
+
+                post.Tags.Remove(databasePostTag);
+                if (databasePostTag.Tag.Posts.Count() == 1)
+                {
+                    _context.Tags.Remove(databasePostTag.Tag);
+                }
+                _context.PostTags.Remove(databasePostTag);
+            }
+
+            Save();
+            return post;
+        }
+
+        public void Update(Post post, ICollection<string> tags)
         {
             Post databasePost = GetPost(post.Id);
             databasePost.Title = post.Title;
             databasePost.Text = post.Text;
             databasePost.LastUpdated = DateTime.Now;
+
+            List<string> postTags = databasePost.Tags.Select(tag => tag.Tag.Name).ToList();
+            databasePost = DeleteTags(databasePost, postTags);
+            databasePost = AddTags(databasePost, tags.ToList());
+
             _context.Update(databasePost);
             Save();
         }
@@ -94,6 +139,7 @@ namespace BlogHost.DAL.Repositories
                 .Include(blog => blog.Blog)
                 .Include(like => like.Likes)
                 .Include(tag => tag.Tags)
+                .ThenInclude(tag => tag.Tag)
                 .Include(comment => comment.Comments)
                 .ThenInclude(comment => comment.Author)
                 .FirstOrDefault(element => element.Id == id);

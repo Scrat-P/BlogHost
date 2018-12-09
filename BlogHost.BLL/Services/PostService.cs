@@ -57,12 +57,12 @@ namespace BlogHost.BLL.Services
             return _postRepository.GetPost(id).ToDTO();
         }
 
-        public void Edit(PostDTO post)
+        public void Edit(PostDTO post, ICollection<string> tags)
         {
-            _postRepository.Update(post.ToEntity());
+            _postRepository.Update(post.ToEntity(), tags);
         }
 
-        public void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId)
+        public void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId, ICollection<string> tags)
         {
             var currentTime = DateTime.Now;
             PostDTO databasePost = new PostDTO()
@@ -74,7 +74,7 @@ namespace BlogHost.BLL.Services
                 Created = currentTime,
                 LastUpdated = currentTime
             };
-            _postRepository.Create(databasePost.ToEntity());
+            _postRepository.Create(databasePost.ToEntity(), tags);
         }
 
         public IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount)
