@@ -18,6 +18,32 @@ namespace BlogHost.DAL.Repositories
             _context = context;
         }
 
+        public void Like(int id, ApplicationUser user)
+        {
+            Post databasePost = GetPost(id);
+            if (databasePost.Likes.Any(element => element.Author.Id == user.Id)) return;
+
+            Like like = new Like()
+            {
+                Post = databasePost,
+                Author = user
+            };
+            _context.Likes.Add(like);
+            _context.Posts.Update(databasePost);
+            Save();
+        }
+
+        public void Unlike(int id, ApplicationUser user)
+        {
+            Like like = _context.Likes.FirstOrDefault(element => element.Author.Id == user.Id);
+            if (like == null) return;
+
+            Post databasePost = GetPost(id);
+            databasePost.Likes.Remove(like);
+            _context.Posts.Update(databasePost);
+            Save();
+        }
+
         public IEnumerable<Post> GetPostList(int blogId)
         {
             return _context.Posts
@@ -51,6 +77,13 @@ namespace BlogHost.DAL.Repositories
             databasePost.LastUpdated = DateTime.Now;
             _context.Update(databasePost);
             Save();
+        }
+
+        public bool IsLiked(int id, ApplicationUser user)
+        {
+            Post databasePost = GetPost(id);
+            if (databasePost.Likes.Any(element => element.Author.Id == user.Id)) return true;
+            return false;
         }
 
         public Post GetPost(int? id)

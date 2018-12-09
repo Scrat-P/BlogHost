@@ -94,6 +94,7 @@ namespace BlogHost.WEB
 
             app.UseSignalR(routes =>
             {
+                routes.MapHub<LikeHub>("/like");
                 routes.MapHub<CommentHub>("/comment");
             });
 

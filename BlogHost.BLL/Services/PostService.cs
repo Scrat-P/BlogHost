@@ -85,5 +85,20 @@ namespace BlogHost.BLL.Services
 
             return postsPerPage;
         }
+
+        public void Like(int id, ClaimsPrincipal currentUser)
+        {
+            _postRepository.Like(id, _userRepository.GetUser(currentUser));
+        }
+
+        public void Unlike(int id, ClaimsPrincipal currentUser)
+        {
+            _postRepository.Unlike(id, _userRepository.GetUser(currentUser));
+        }
+
+        public bool IsLiked(int id, ClaimsPrincipal currentUser)
+        {
+            return _postRepository.IsLiked(id, _userRepository.GetUser(currentUser));
+        }
     }
 }

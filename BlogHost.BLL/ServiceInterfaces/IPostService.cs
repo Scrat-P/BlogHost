@@ -15,5 +15,8 @@ namespace BlogHost.BLL.ServiceInterfaces
         void Edit(PostDTO post);
         void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId);
         IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount);
+        void Like(int id, ClaimsPrincipal currentUser);
+        void Unlike(int id, ClaimsPrincipal currentUser);
+        bool IsLiked(int id, ClaimsPrincipal currentUser);
     }
 }

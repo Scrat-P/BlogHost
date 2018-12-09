@@ -9,6 +9,9 @@ namespace BlogHost.DAL.RepositoryInterfaces
     public interface IPostRepository
     {
         IEnumerable<Post> GetPostList(int blogId);
+        void Like(int id, ApplicationUser user);
+        void Unlike(int id, ApplicationUser user);
+        bool IsLiked(int id, ApplicationUser user);
         Post GetPost(int? id);
         void Create(Post post);
         void Update(Post post);

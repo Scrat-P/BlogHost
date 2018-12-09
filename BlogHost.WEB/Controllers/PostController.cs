@@ -107,14 +107,16 @@ namespace BlogHost.Controllers
             return RedirectToAction("Show", "Blog", new { id = blogId });
         }
 
-        //public IActionResult PutLike(int? id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Like(int postId)
+        {
+            _postService.Like(postId, User);
+            return RedirectToAction("Post", "Show", new { id = postId });
+        }
 
-        //public IActionResult CleanLike(int? id)
-        //{
-        //    return View();
-        //}
+        public ActionResult Unlike(int postId)
+        {
+            _postService.Unlike(postId, User);
+            return RedirectToAction("Post", "Show", new { id = postId });
+        }
     }
 }
