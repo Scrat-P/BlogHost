@@ -13,10 +13,12 @@ using BlogHost.BLL.Services;
 using BlogHost.BLL.ServiceInterfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using System.Reflection;
 using BlogHost.BLL.Mappers;
 using BlogHost.WEB.Models.MappingProfiles;
 using BlogHost.WEB.Hubs;
+using BlogHost.WEB.Areas.Identity.Services;
 
 namespace BlogHost.WEB
 {
@@ -47,6 +49,7 @@ namespace BlogHost.WEB
             //services.AddDefaultIdentity<ApplicationUser>()
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUserService, UserService>();
