@@ -9,6 +9,7 @@ namespace BlogHost.DAL.RepositoryInterfaces
     public interface IPostRepository
     {
         IEnumerable<Post> GetPostList(int blogId);
+        IEnumerable<Post> GetPopularWeekPostsList();
         void Like(int id, ApplicationUser user);
         void Unlike(int id, ApplicationUser user);
         bool IsLiked(int id, ApplicationUser user);

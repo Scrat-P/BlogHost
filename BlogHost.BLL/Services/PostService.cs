@@ -77,6 +77,18 @@ namespace BlogHost.BLL.Services
             _postRepository.Create(databasePost.ToEntity(), tags);
         }
 
+        public IEnumerable<PostDTO> GetPopularWeekPosts(int page, int pageSize, out int postsCount)
+        {
+            IEnumerable<PostDTO> posts = _postRepository
+                .GetPopularWeekPostsList().ToDTO()
+                .OrderBy(post => post.Likes.Count + post.Comments.Count)
+                .Reverse();
+            postsCount = posts.Count();
+            IEnumerable<PostDTO> postsPerPage = posts.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return postsPerPage;
+        }
+
         public IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount)
         {
             IEnumerable<PostDTO> posts = _postRepository.GetPostList(blogId).ToDTO();

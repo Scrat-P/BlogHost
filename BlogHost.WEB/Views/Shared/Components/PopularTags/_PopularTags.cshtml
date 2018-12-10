@@ -1,0 +1,11 @@
+﻿<div class="tag-area">
+
+    <h4 class="rigth-panel-title"><b>POPULAR TAGS</b></h4>
+    <ul>
+        @foreach (TagViewModel tag in ViewBag.PopularTags)
+        {
+            <li><a href="#">@tag.Name</a></li>
+        }
+    </ul>
+
+</div><!-- tag-area -->

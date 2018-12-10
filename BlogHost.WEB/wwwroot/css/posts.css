@@ -352,11 +352,16 @@ header {
 }
 
     .single-post .post-footer > li {
-        width: 50%;
+        width: 100%;
         display: inline-block;
         border-right: 1px solid #fff;
         background: #EDF3F3;
     }
+
+.date {
+    display: inline-block;
+    color: #999;
+}
 
         .single-post .post-footer > li:first-child {
             float: left;

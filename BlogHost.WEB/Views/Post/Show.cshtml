@@ -95,21 +95,7 @@
                             <p>@Model.Blog.Description</p>
                         </div>
 
-                        <div class="tag-area">
-
-                            <h4 class="title"><b>POPULAR TAGS</b></h4>
-                            <ul>
-                                <li><a href="#">Manual</a></li>
-                                <li><a href="#">Liberty</a></li>
-                                <li><a href="#">Recomendation</a></li>
-                                <li><a href="#">Interpritation</a></li>
-                                <li><a href="#">Manual</a></li>
-                                <li><a href="#">Liberty</a></li>
-                                <li><a href="#">Recomendation</a></li>
-                                <li><a href="#">Interpritation</a></li>
-                            </ul>
-
-                        </div><!-- tag-area -->
+                        @await Component.InvokeAsync("PopularTags")
 
                     </div><!-- info-area -->
 

@@ -52,12 +52,14 @@ namespace BlogHost.WEB
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<ITagService, TagService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommentService, CommentService>();
 
             // Add application repositories.
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();
 
@@ -68,6 +70,18 @@ namespace BlogHost.WEB
             //services.AddAutoMapper();
 
             Mapper.Initialize(cfg => cfg.AddProfiles(
+                Assembly.GetAssembly(typeof(PostTagDTOProfile)),
+                Assembly.GetAssembly(typeof(PostTagVMProfile)),
+                Assembly.GetAssembly(typeof(TagDTOProfile)),
+                Assembly.GetAssembly(typeof(TagVMProfile)),
+                Assembly.GetAssembly(typeof(LikeDTOProfile)),
+                Assembly.GetAssembly(typeof(LikeVMProfile)),
+                Assembly.GetAssembly(typeof(CommentDTOProfile)),
+                Assembly.GetAssembly(typeof(CommentVMProfile)),
+                Assembly.GetAssembly(typeof(PostDTOProfile)),
+                Assembly.GetAssembly(typeof(PostVMProfile)),
+                Assembly.GetAssembly(typeof(BlogDTOProfile)),
+                Assembly.GetAssembly(typeof(BlogVMProfile)),
                 Assembly.GetAssembly(typeof(UserDTOProfile)),
                 Assembly.GetAssembly(typeof(UserVMProfile)),
                 Assembly.GetAssembly(typeof(Startup))));

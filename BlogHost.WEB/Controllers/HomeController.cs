@@ -1,37 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using BlogHost.BLL.ServiceInterfaces;
 using BlogHost.WEB.Models;
-using BlogHost.DAL.Entities;
-using BlogHost.DAL.Data;
-using BlogHost.BLL.Mappers;
+using BlogHost.BLL.DTO;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using BlogHost.WEB.Models.MappingProfiles;
 
 namespace BlogHost.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext _context;
+        private readonly IPostService _postService;
 
-        public HomeController(ApplicationDbContext context)
+        public HomeController(IPostService postService)
         {
-            _context = context;
+            _postService = postService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int page = 1, int pageSize = 8)
         {
-            IEnumerable<Post> posts = _context.Posts
-                .Include(element => element.Author)
-                .Include(element => element.Blog)
-                .Include(element => element.Likes)
-                .Include(element => element.Comments)
-                .Where(element => element.Blog.Id == 1);
+            var postsPerPage = _postService.GetPopularWeekPosts(page, pageSize, out int postsCount).ToVM();
 
-            return View(posts.ToDTO().ToVM());
+            PageViewModel pageViewModel = new PageViewModel(postsCount, page, pageSize);
+            IndexViewModel<PostViewModel> viewModel = new IndexViewModel<PostViewModel>
+            {
+                PageViewModel = pageViewModel,
+                Items = postsPerPage
+            };
+
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

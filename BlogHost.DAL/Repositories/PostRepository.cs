@@ -45,6 +45,19 @@ namespace BlogHost.DAL.Repositories
             Save();
         }
 
+        public IEnumerable<Post> GetPopularWeekPostsList()
+        {
+            var endDate = DateTime.Now;
+            var startDate = endDate.AddDays(-7);
+
+            return _context.Posts
+                .Include(element => element.Author)
+                .Include(element => element.Blog)
+                .Include(element => element.Likes)
+                .Include(element => element.Comments)
+                .Where(date => date.Created >= startDate && date.Created <= endDate);
+        }
+
         public IEnumerable<Post> GetPostList(int blogId)
         {
             return _context.Posts
