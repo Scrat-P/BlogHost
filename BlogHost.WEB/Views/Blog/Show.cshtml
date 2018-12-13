@@ -1,4 +1,5 @@
-﻿@model IndexViewModel<PostViewModel>
+﻿@inject IUserService UserService
+@model IndexViewModel<PostViewModel>
 @{
     ViewData["Title"] = "Blog posts";
 }
@@ -18,7 +19,18 @@
 
                             <div class="blog-image"><img src="~/images/default-blog-image.jpg" alt="Blog Image"></div>
 
-                            <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
+                            <a class="avatar" href="#">
+                                @{ var photo = UserService.GetProfilePicture(post.Author.Id); }
+                                @if (photo == null)
+                                {
+                                    <img src="~/images/default-user-image.png" alt="Profile Image">
+                                }
+                                else
+                                {
+                                    <img src="data:image/jpeg;base64,@(Convert.ToBase64String(photo))" />
+                                }
+                                @*<img src="~/images/default-user-image.png" alt="Profile Image">*@
+                            </a>
 
                             <div class="blog-info">
 

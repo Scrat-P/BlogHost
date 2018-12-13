@@ -82,5 +82,11 @@ namespace BlogHost.DAL.Repositories
         {
             return _userManager.Users;
         }
+
+        public byte[] GetProfilePicture(string id)
+        {
+            ApplicationUser user = GetUser(id);
+            return user.ProfilePicture;
+        }
     }
 }

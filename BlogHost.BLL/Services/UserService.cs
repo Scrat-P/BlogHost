@@ -52,6 +52,15 @@ namespace BlogHost.BLL.Services
             return _userRepository.Create(user.ToEntity(), roles, user.Password);
         }
 
+        public byte[] GetProfilePicture(string id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+            return _userRepository.GetProfilePicture(id);
+        }
+
         public IEnumerable<UserDTO> GetUsers()
         {
             return _userRepository.GetUserList().ToDTO();

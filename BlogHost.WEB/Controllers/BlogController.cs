@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using BlogHost.BLL.ServiceInterfaces;
 using BlogHost.WEB.Models;
 using BlogHost.BLL.DTO;
+using BlogHost.WEB.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace BlogHost.WEB.Controllers
         private readonly IBlogService _blogService;
         private readonly IPostService _postService;
 
-        public BlogController( 
+        public BlogController(
             IBlogService blogService,
             IPostService postService)
         {
@@ -54,7 +55,7 @@ namespace BlogHost.WEB.Controllers
             if (ModelState.IsValid)
             {
                 _blogService.Create(viewModel.ToDTO(), User);
-                
+
                 return RedirectToAction("Index");
             }
 
@@ -62,6 +63,7 @@ namespace BlogHost.WEB.Controllers
         }
 
         [AllowAnonymous]
+        [TypeFilter(typeof(AliasRedirectActionFilter))]
         public IActionResult Show(int? id, int page = 1, int pageSize = 9)
         {
             if (_blogService.GetBlog(id, User, false) == null)

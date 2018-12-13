@@ -56,6 +56,11 @@ namespace BlogHost.BLL.Services
             return _blogRepository.GetBlog(id).ToDTO();
         }
 
+        public int? GetBlogId(string title)
+        {
+            return _blogRepository.GetBlogId(title);
+        }
+
         public void Edit(BlogDTO blog)
         {
             _blogRepository.Update(blog.ToEntity());

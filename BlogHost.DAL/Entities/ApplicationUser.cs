@@ -7,5 +7,6 @@ namespace BlogHost.DAL.Entities
 {
     public class ApplicationUser : IdentityUser
     {
+        public byte[] ProfilePicture { get; set; }
     }
 }

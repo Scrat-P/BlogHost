@@ -8,7 +8,8 @@ namespace BlogHost.DAL.RepositoryInterfaces
 {
     public interface IBlogRepository
     {
-        IEnumerable<Blog> GetBlogList(ApplicationUser user); 
+        IEnumerable<Blog> GetBlogList(ApplicationUser user);
+        int? GetBlogId(string title);
         Blog GetBlog(int? id); 
         void Create(Blog blog); 
         void Update(Blog blog);

@@ -1,4 +1,5 @@
 ﻿@inject IPostService PostService
+@inject IUserService UserService
 @model PostViewModel
 @{
     ViewData["Title"] = "Post details";
@@ -41,8 +42,6 @@
                                 <li>
                                     <a>
                                         <i type='submit' id="likeButton" class="ion-heart"></i>
-                                        <!-- <a type='submit' id="likeButton"></a>
-        <!--<i class="ion-heart">class="glyphicon glyphicon-heart"</i>-->
                                         <acronym id="likesCountTop">@Model.Likes.Count()</acronym>
                                     </a>
                                     <input id="PostId" type="hidden" value="@Model.Id" />
@@ -72,7 +71,17 @@
                         <div class="post-footer post-info">
 
                             <div class="left-area">
-                                <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
+                                <a class="avatar" href="#">
+                                    @{ var photo = UserService.GetProfilePicture(Model.Author.Id); }
+                                    @if (photo == null)
+                                    {
+                                        <img src="~/images/default-user-image.png" alt="Profile Image">
+                                    }
+                                    else
+                                    {
+                                        <img src="data:image/jpeg;base64,@(Convert.ToBase64String(photo))" />
+                                    }
+                                </a>
                             </div>
 
                             <div class="middle-area">
@@ -145,8 +154,8 @@
                                 <div class="post-info">
 
                                     <!--<div class="left-area">
-                        <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
-                    </div>-->
+                                        <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
+                                    </div>-->
 
                                     <div class="pull-left">
                                         <a class="name" href="#"><b>@comment.Author.UserName</b></a>
@@ -162,7 +171,7 @@
                     }
                     <div id="lastComment"></div>
 
-                    <script src="~/js/dateformat.js"></script> 
+                    <script src="~/js/dateformat.js"></script>
                     <script src="~/js/comment.js"></script>
                 </div>
             </div><!-- col-lg-8 col-md-12 -->

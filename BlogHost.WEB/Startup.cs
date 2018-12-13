@@ -30,13 +30,11 @@ namespace BlogHost.WEB
         }
 
         public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
@@ -46,17 +44,13 @@ namespace BlogHost.WEB
                     Configuration.GetConnectionString("DefaultConnection"),
                     x => x.MigrationsAssembly("BlogHost.DAL")));
 
-            //services.AddDefaultIdentity<ApplicationUser>()
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<ITagService, TagService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICommentService, CommentService>();
-
-            // Add application repositories.
+            
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
@@ -67,21 +61,7 @@ namespace BlogHost.WEB
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddAutoMapper();
-
             Mapper.Initialize(cfg => cfg.AddProfiles(
-                Assembly.GetAssembly(typeof(PostTagDTOProfile)),
-                Assembly.GetAssembly(typeof(PostTagVMProfile)),
-                Assembly.GetAssembly(typeof(TagDTOProfile)),
-                Assembly.GetAssembly(typeof(TagVMProfile)),
-                Assembly.GetAssembly(typeof(LikeDTOProfile)),
-                Assembly.GetAssembly(typeof(LikeVMProfile)),
-                Assembly.GetAssembly(typeof(CommentDTOProfile)),
-                Assembly.GetAssembly(typeof(CommentVMProfile)),
-                Assembly.GetAssembly(typeof(PostDTOProfile)),
-                Assembly.GetAssembly(typeof(PostVMProfile)),
-                Assembly.GetAssembly(typeof(BlogDTOProfile)),
-                Assembly.GetAssembly(typeof(BlogVMProfile)),
                 Assembly.GetAssembly(typeof(UserDTOProfile)),
                 Assembly.GetAssembly(typeof(UserVMProfile)),
                 Assembly.GetAssembly(typeof(Startup))));
@@ -89,8 +69,7 @@ namespace BlogHost.WEB
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSignalR();
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -119,7 +98,12 @@ namespace BlogHost.WEB
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}"
+                );
+                routes.MapSpaFallbackRoute(
+                    name: "alias",
+                    defaults: new { controller = "Blog", action = "Show" }
+                );
             });
         }
     }

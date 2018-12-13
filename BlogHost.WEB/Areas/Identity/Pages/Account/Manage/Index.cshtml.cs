@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using BlogHost.DAL.Entities;
+using Microsoft.AspNetCore.Http;
+using BlogHost.BLL.ServiceInterfaces;
 
 namespace BlogHost.WEB.Areas.Identity.Pages.Account.Manage
 {
@@ -47,6 +51,9 @@ namespace BlogHost.WEB.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Display(Name = "Profile picture")]
+            public IFormFile ProfilePicture { get; set; }
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -108,6 +115,14 @@ namespace BlogHost.WEB.Areas.Identity.Pages.Account.Manage
                     throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                 }
             }
+
+            byte[] imageData = null;
+            using (var binaryReader = new BinaryReader(Input.ProfilePicture.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)Input.ProfilePicture.Length);
+            }
+            user.ProfilePicture = imageData;
+            await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

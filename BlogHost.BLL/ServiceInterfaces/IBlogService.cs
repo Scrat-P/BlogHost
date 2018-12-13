@@ -13,6 +13,7 @@ namespace BlogHost.BLL.ServiceInterfaces
         void Delete(int? id, ClaimsPrincipal currentUser);
         BlogDTO GetBlog(int? id, ClaimsPrincipal currentUser, bool checkAccess = true);
         void Edit(BlogDTO blog);
+        int? GetBlogId(string title);
         void Create(BlogDTO blog, ClaimsPrincipal currentUser);
         IEnumerable<BlogDTO> GetPageBlogs(int page, int pageSize, ClaimsPrincipal currentUser, out int blogsCount);
     }

@@ -25,6 +25,14 @@ namespace BlogHost.DAL.Repositories
                 .Where(author => author.Author.Id == user.Id);
         }
 
+        public int? GetBlogId(string title)
+        {
+            Blog blog = _context.Blogs
+                .FirstOrDefault(element => element.Title.ToLower() == title.ToLower());
+
+            return blog?.Id;
+        }
+
         public void Create(Blog blog)
         {
             _context.Blogs.Add(blog);

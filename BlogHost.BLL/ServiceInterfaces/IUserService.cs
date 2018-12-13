@@ -15,5 +15,6 @@ namespace BlogHost.BLL.ServiceInterfaces
         IdentityResult Edit(UserDTO user, List<string> roles);
         IdentityResult Create(UserDTO user, List<string> roles);
         IEnumerable<UserDTO> GetUsers();
+        byte[] GetProfilePicture(string id);
     }
 }

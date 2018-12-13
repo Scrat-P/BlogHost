@@ -18,5 +18,6 @@ namespace BlogHost.DAL.RepositoryInterfaces
         IEnumerable<ApplicationUser> GetUserList();
         List<IdentityRole> GetAllRoles();
         IList<string> GetUserRoles(string id);
+        byte[] GetProfilePicture(string id);
     }
 }
