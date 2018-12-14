@@ -61,12 +61,16 @@ namespace BlogHost.Controllers
 
         private byte[] LoadProfilePicture(IFormFile LoadableProfilePicture)
         {
-            byte[] imageData = null;
-            using (var binaryReader = new BinaryReader(LoadableProfilePicture.OpenReadStream()))
+            if (LoadableProfilePicture != null)
             {
-                imageData = binaryReader.ReadBytes((int)LoadableProfilePicture.Length);
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(LoadableProfilePicture.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)LoadableProfilePicture.Length);
+                }
+                return imageData;
             }
-            return imageData;
+            return null;
         }
 
         public IActionResult Edit(int? id)

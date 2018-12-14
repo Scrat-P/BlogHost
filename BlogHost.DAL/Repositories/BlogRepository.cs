@@ -33,9 +33,16 @@ namespace BlogHost.DAL.Repositories
             return blog?.Id;
         }
 
-        public void Create(Blog blog)
+        public void Create(Blog blog, ApplicationUser user)
         {
-            _context.Blogs.Add(blog);
+            Blog databaseBlog = new Blog()
+            {
+                Author = user,
+                Title = blog.Title,
+                Description = blog.Description
+            };
+
+            _context.Blogs.Add(databaseBlog);
             Save();
         }
 

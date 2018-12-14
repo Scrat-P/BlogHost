@@ -64,18 +64,12 @@ namespace BlogHost.BLL.Services
 
         public void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId, ICollection<string> tags)
         {
-            var currentTime = DateTime.Now;
-            PostDTO databasePost = new PostDTO()
-            {
-                Title = post.Title,
-                Text = post.Text,
-                Blog = _blogRepository.GetBlog(blogId).ToDTO(),
-                Author = GetUser(currentUser),
-                Created = currentTime,
-                LastUpdated = currentTime,
-                ProfilePicture = post.ProfilePicture
-            };
-            _postRepository.Create(databasePost.ToEntity(), tags);
+            _postRepository.Create(
+                post.ToEntity(),
+                _blogRepository.GetBlog(blogId), 
+                GetUser(currentUser).ToEntity(),
+                tags
+            );
         }
 
         public IEnumerable<PostDTO> GetPopularWeekPosts(int page, int pageSize, out int postsCount)

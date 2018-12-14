@@ -68,13 +68,7 @@ namespace BlogHost.BLL.Services
 
         public void Create(BlogDTO blog, ClaimsPrincipal currentUser)
         {
-            BlogDTO databaseBlog = new BlogDTO()
-            {
-                Author = GetUser(currentUser),
-                Title = blog.Title,
-                Description = blog.Description
-            };
-            _blogRepository.Create(databaseBlog.ToEntity());
+            _blogRepository.Create(blog.ToEntity(), GetUser(currentUser).ToEntity());
         }
 
         public IEnumerable<BlogDTO> GetPageBlogs(int page, int pageSize, ClaimsPrincipal currentUser, out int blogsCount)

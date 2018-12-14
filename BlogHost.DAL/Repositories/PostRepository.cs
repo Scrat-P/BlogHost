@@ -83,12 +83,24 @@ namespace BlogHost.DAL.Repositories
             return post;
         }
 
-        public void Create(Post post, ICollection<string> tags)
+        public void Create(Post post, Blog blog, ApplicationUser user, ICollection<string> tags)
         {
-            post = AddTags(post, tags.ToList());
+            var currentTime = DateTime.Now;
+            Post databasePost = new Post()
+            {
+                Title = post.Title,
+                Text = post.Text,
+                Blog = blog,
+                Author = user,
+                Created = currentTime,
+                LastUpdated = currentTime,
+                ProfilePicture = post.ProfilePicture
+            };
 
-            var tagsCollection = post.Tags;
-            _context.Posts.Add(post);
+            databasePost = AddTags(databasePost, tags.ToList());
+
+            var tagsCollection = databasePost.Tags;
+            _context.Posts.Add(databasePost);
             _context.AddRange(tagsCollection);
             Save();
         }

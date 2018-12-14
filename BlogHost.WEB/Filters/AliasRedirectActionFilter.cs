@@ -22,7 +22,7 @@ namespace BlogHost.WEB.Filters
         {
             if (context.RouteData.Values.ContainsKey("clientRoute"))
             {
-                int? blodId = _blogService.GetBlogId(context.RouteData.Values["clientRoute"].ToString());
+                int? blodId = _blogService.GetBlogId(context.RouteData.Values["clientRoute"]?.ToString());
                 if (blodId != null)
                 {
                     context.ActionArguments["id"] = blodId;

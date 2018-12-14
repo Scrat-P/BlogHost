@@ -58,6 +58,10 @@
     background: none;
 }
 
+.dropdown-menu > li {
+    display: block;
+}
+
 .success-btn {
     font-size: .8em;
     border: 0;

@@ -19,6 +19,7 @@ using BlogHost.BLL.Mappers;
 using BlogHost.WEB.Models.MappingProfiles;
 using BlogHost.WEB.Hubs;
 using BlogHost.WEB.Areas.Identity.Services;
+using BlogHost.WEB.RouteConstraints;
 
 namespace BlogHost.WEB
 {
@@ -63,8 +64,7 @@ namespace BlogHost.WEB
 
             Mapper.Initialize(cfg => cfg.AddProfiles(
                 Assembly.GetAssembly(typeof(UserDTOProfile)),
-                Assembly.GetAssembly(typeof(UserVMProfile)),
-                Assembly.GetAssembly(typeof(Startup))));
+                Assembly.GetAssembly(typeof(UserVMProfile))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddSignalR();
@@ -100,10 +100,16 @@ namespace BlogHost.WEB
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}"
                 );
-                routes.MapSpaFallbackRoute(
+                routes.MapRoute(
                     name: "alias",
-                    defaults: new { controller = "Blog", action = "Show" }
+                    template: "{*clientRoute}",
+                    defaults: new { controller = "Blog", action = "Show" },
+                    constraints: new { clientRoute = new TitleConstraint() }
                 );
+                //routes.MapSpaFallbackRoute(
+                //    name: "alias",
+                //    defaults: new { controller = "Blog", action = "Show" }
+                //);
             });
         }
     }
