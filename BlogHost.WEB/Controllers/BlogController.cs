@@ -29,18 +29,23 @@ namespace BlogHost.WEB.Controllers
             _postService = postService;
         }
 
+        private IndexViewModel<T> GetPageModel<T>(int itemsCount, int pageNumber, int pageSize, IEnumerable<T> itemsPerPage)
+        {
+            PageViewModel pageViewModel = new PageViewModel(itemsCount, pageNumber, pageSize);
+            IndexViewModel<T> viewModel = new IndexViewModel<T>
+            {
+                PageViewModel = pageViewModel,
+                Items = itemsPerPage
+            };
+
+            return viewModel;
+        }
+
         public IActionResult Index(int page = 1, int pageSize = 3)
         {
             var blogsPerPage = _blogService.GetPageBlogs(page, pageSize, User, out int blogsCount).ToVM();
 
-            PageViewModel pageViewModel = new PageViewModel(blogsCount, page, pageSize);
-            IndexViewModel<BlogViewModel> viewModel = new IndexViewModel<BlogViewModel>
-            {
-                PageViewModel = pageViewModel,
-                Items = blogsPerPage
-            };
-
-            return View(viewModel);
+            return View(GetPageModel(blogsCount, page, pageSize, blogsPerPage));
         }
 
         public IActionResult Create()
@@ -71,16 +76,9 @@ namespace BlogHost.WEB.Controllers
                 return NotFound();
             }
 
-            IEnumerable<PostViewModel> postsPerPage = _postService.GetPagePosts(page, pageSize, (int)id, out int postsCount).ToVM();
+            var postsPerPage = _postService.GetPagePosts(page, pageSize, (int)id, out int postsCount).ToVM();
 
-            PageViewModel pageViewModel = new PageViewModel(postsCount, page, pageSize);
-            IndexViewModel<PostViewModel> viewModel = new IndexViewModel<PostViewModel>
-            {
-                PageViewModel = pageViewModel,
-                Items = postsPerPage
-            };
-
-            return View(viewModel);
+            return View(GetPageModel(postsCount, page, pageSize, postsPerPage));
         }
 
         public IActionResult Edit(int? id)

@@ -10,7 +10,14 @@
 
 <div id="cont">
     <div class="slider">
-        <img src="~/images/default-blog-image.jpg" alt="Profile Image">
+        @if (Model.ProfilePicture.Length <= 1)
+        {
+            <img src="~/images/default-blog-image.jpg" alt="Profile Image">
+        }
+        else
+        {
+            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
+        }
     </div>
 
 

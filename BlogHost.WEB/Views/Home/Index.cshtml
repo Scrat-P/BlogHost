@@ -20,7 +20,16 @@
                             <div class="card h-100">
                                 <div class="single-post post-style-1">
 
-                                    <div class="blog-image"><img src="~/images/default-blog-image.jpg" alt="Blog Image"></div>
+                                    <div class="blog-image">
+                                        @if (post.ProfilePicture.Length <= 1)
+                                        {
+                                            <img src="~/images/default-blog-image.jpg" alt="Profile Image">
+                                        }
+                                        else
+                                        {
+                                            <img src="data:image/jpeg;base64,@(Convert.ToBase64String(post.ProfilePicture))">
+                                        }
+                                    </div>
 
                                     <a class="avatar" href="#">
                                         @{ var photo = UserService.GetProfilePicture(post.Author.Id); }
@@ -32,7 +41,6 @@
                                         {
                                             <img src="data:image/jpeg;base64,@(Convert.ToBase64String(photo))" />
                                         }
-                                        @*<img src="~/images/default-user-image.png" alt="Profile Image">*@
                                     </a>
 
                                     <div class="blog-info">

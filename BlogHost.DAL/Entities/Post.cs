@@ -14,6 +14,9 @@ namespace BlogHost.DAL.Entities
         public Blog Blog { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
+
+        public byte[] ProfilePicture { get; set; }
+
         public List<Comment> Comments { get; set; }
         public List<Like> Likes { get; set; }
 

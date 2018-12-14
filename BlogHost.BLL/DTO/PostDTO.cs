@@ -16,6 +16,9 @@ namespace BlogHost.BLL.DTO
         public BlogDTO Blog { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
+
+        public byte[] ProfilePicture { get; set; }
+
         public List<CommentDTO> Comments { get; set; }
         public List<LikeDTO> Likes { get; set; }
 

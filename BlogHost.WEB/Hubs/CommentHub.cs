@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using BlogHost.WEB.Models.MappingProfiles;
 using BlogHost.BLL.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using BlogHost.WEB.Models;
 
 namespace BlogHost.WEB.Hubs
 {
+    [Authorize]
     public class CommentHub : Hub
     {
         private readonly ICommentService _commentService;

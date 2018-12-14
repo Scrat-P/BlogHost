@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using BlogHost.WEB.Models.MappingProfiles;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BlogHost.Controllers
 {
@@ -48,12 +50,23 @@ namespace BlogHost.Controllers
         {
             if (ModelState.IsValid)
             {
+                viewModel.ProfilePicture = LoadProfilePicture(viewModel.LoadableProfilePicture);
                 _postService.Create(viewModel.ToDTO(), User, viewModel.BlogId, tags);
 
                 return RedirectToAction("Show", "Blog", new { id = viewModel.BlogId });
             }
 
             return View(viewModel);
+        }
+
+        private byte[] LoadProfilePicture(IFormFile LoadableProfilePicture)
+        {
+            byte[] imageData = null;
+            using (var binaryReader = new BinaryReader(LoadableProfilePicture.OpenReadStream()))
+            {
+                imageData = binaryReader.ReadBytes((int)LoadableProfilePicture.Length);
+            }
+            return imageData;
         }
 
         public IActionResult Edit(int? id)
@@ -73,6 +86,7 @@ namespace BlogHost.Controllers
         {
             if (ModelState.IsValid)
             {
+                viewModel.ProfilePicture = LoadProfilePicture(viewModel.LoadableProfilePicture);
                 _postService.Edit(viewModel.ToDTO(), tags);
 
                 return RedirectToAction("Show", "Post", new { id = viewModel.Id });

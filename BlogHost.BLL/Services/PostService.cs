@@ -72,7 +72,8 @@ namespace BlogHost.BLL.Services
                 Blog = _blogRepository.GetBlog(blogId).ToDTO(),
                 Author = GetUser(currentUser),
                 Created = currentTime,
-                LastUpdated = currentTime
+                LastUpdated = currentTime,
+                ProfilePicture = post.ProfilePicture
             };
             _postRepository.Create(databasePost.ToEntity(), tags);
         }

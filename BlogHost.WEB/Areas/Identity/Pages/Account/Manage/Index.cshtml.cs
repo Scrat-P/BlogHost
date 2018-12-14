@@ -116,12 +116,16 @@ namespace BlogHost.WEB.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            byte[] imageData = null;
-            using (var binaryReader = new BinaryReader(Input.ProfilePicture.OpenReadStream()))
+            if (Input.ProfilePicture != null)
             {
-                imageData = binaryReader.ReadBytes((int)Input.ProfilePicture.Length);
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(Input.ProfilePicture.OpenReadStream()))
+                {
+                    imageData = binaryReader.ReadBytes((int)Input.ProfilePicture.Length);
+                }
+                user.ProfilePicture = imageData;
             }
-            user.ProfilePicture = imageData;
+
             await _userManager.UpdateAsync(user);
 
             await _signInManager.RefreshSignInAsync(user);

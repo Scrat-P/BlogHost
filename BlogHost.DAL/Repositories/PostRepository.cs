@@ -129,6 +129,7 @@ namespace BlogHost.DAL.Repositories
             databasePost.Title = post.Title;
             databasePost.Text = post.Text;
             databasePost.LastUpdated = DateTime.Now;
+            databasePost.ProfilePicture = post.ProfilePicture;
 
             List<string> postTags = databasePost.Tags.Select(tag => tag.Tag.Name).ToList();
             databasePost = DeleteTags(databasePost, postTags);

@@ -5,10 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using BlogHost.WEB.Models.MappingProfiles;
 using BlogHost.BLL.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using BlogHost.WEB.Models;
 
 namespace BlogHost.WEB.Hubs
 {
+    [Authorize]
     public class LikeHub : Hub
     {
         private readonly IPostService _postService;
@@ -20,16 +23,13 @@ namespace BlogHost.WEB.Hubs
 
         public async Task Like(int id, bool isLiked)
         {
-            if (Context.User.Identity.IsAuthenticated)
+            if (isLiked)
             {
-                if (isLiked)
-                {
-                    _postService.Unlike(id, Context.User);
-                }
-                else
-                {
-                    _postService.Like(id, Context.User);
-                }
+                _postService.Unlike(id, Context.User);
+            }
+            else
+            {
+                _postService.Like(id, Context.User);
             }
             await Clients.All.SendAsync("Like", id, isLiked);
         }

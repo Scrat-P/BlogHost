@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlogHost.DAL.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace BlogHost.WEB.Models
 {
@@ -16,6 +17,9 @@ namespace BlogHost.WEB.Models
         public BlogViewModel Blog { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastUpdated { get; set; }
+
+        public byte[] ProfilePicture { get; set; }
+        public IFormFile LoadableProfilePicture { get; set; }
 
         public List<CommentViewModel> Comments { get; set; }
         public List<LikeViewModel> Likes { get; set; }
