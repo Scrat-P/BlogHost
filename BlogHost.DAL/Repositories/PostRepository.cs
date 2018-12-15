@@ -44,28 +44,30 @@ namespace BlogHost.DAL.Repositories
             _context.Posts.Update(databasePost);
             Save();
         }
+ 
 
         public IEnumerable<Post> GetPopularWeekPostsList()
         {
             var endDate = DateTime.Now;
             var startDate = endDate.AddDays(-7);
 
-            return _context.Posts
-                .Include(element => element.Author)
-                .Include(element => element.Blog)
-                .Include(element => element.Likes)
-                .Include(element => element.Comments)
+            return GetAllPostList()
                 .Where(date => date.Created >= startDate && date.Created <= endDate);
         }
 
         public IEnumerable<Post> GetPostList(int blogId)
         {
+            return GetAllPostList()
+                .Where(element => element.Blog.Id == blogId);
+        }
+
+        public IEnumerable<Post> GetAllPostList()
+        {
             return _context.Posts
                 .Include(element => element.Author)
                 .Include(element => element.Blog)
-                .Include(element => element.Likes)
-                .Include(element => element.Comments)
-                .Where(element => element.Blog.Id == blogId);
+                .Include(tag => tag.Tags)
+                .ThenInclude(tag => tag.Tag);
         }
 
         private Post AddTags(Post post, List<string> tags)

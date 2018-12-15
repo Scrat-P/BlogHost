@@ -48,10 +48,7 @@ namespace BlogHost.WEB.Controllers
             return View(GetPageModel(blogsCount, page, pageSize, blogsPerPage));
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -65,6 +62,13 @@ namespace BlogHost.WEB.Controllers
             }
 
             return View(viewModel);
+        }
+
+        public IActionResult Search(string title = null, string author = null, int page = 1, int pageSize = 3)
+        {
+            var blogsPerPage = _blogService.Search(title, author, page, pageSize, out int blogsCount).ToVM();
+            
+            return View(GetPageModel(blogsCount, page, pageSize, blogsPerPage));
         }
 
         [AllowAnonymous]

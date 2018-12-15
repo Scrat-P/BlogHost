@@ -1,7 +1,7 @@
 ﻿@inject IUserService UserService
 @model IndexViewModel<PostViewModel>
 @{
-    ViewData["Title"] = "Blog posts";
+    ViewData["Title"] = "Posts search";
 }
 @section css {
     <link href="@Url.Content("~/css/posts.css")" rel="stylesheet" />
@@ -9,6 +9,28 @@
 
 <section class="blog-area section">
     <div class="container">
+
+        <form method="get">
+            <div class="form-inline form-group">
+
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label">Title</label>
+                    <input type="text" asp-for="Title" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Tags</label>
+                    <select multiple data-role="tagsinput" asp-for="Tags" class="form-control">
+                        @foreach (var tag in Model.Tags)
+                        {
+                            <option value="@tag"></option>
+                        }
+                    </select>
+                </div>
+
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </form>
 
         <div class="row">
             @foreach (PostViewModel post in Model.Items)
@@ -66,7 +88,7 @@
             }
         </div><!-- row -->
 
-        <page-link page-model="Model.PageViewModel" page-action="Show"></page-link>
+        <page-link page-model="Model.PageViewModel" page-action="Search"></page-link>
 
     </div><!-- container -->
 </section><!-- section -->

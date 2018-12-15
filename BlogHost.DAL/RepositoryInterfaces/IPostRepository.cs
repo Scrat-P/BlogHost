@@ -8,6 +8,7 @@ namespace BlogHost.DAL.RepositoryInterfaces
 {
     public interface IPostRepository
     {
+        IEnumerable<Post> GetAllPostList();
         IEnumerable<Post> GetPostList(int blogId);
         IEnumerable<Post> GetPopularWeekPostsList();
         void Like(int id, ApplicationUser user);

@@ -16,6 +16,11 @@
     width: 100vw;
 }
 
+.search-form {
+    padding-top: 20px;
+    text-align: center;
+}
+
 .back-btn {
     font-size: .8em;
     border: 0;

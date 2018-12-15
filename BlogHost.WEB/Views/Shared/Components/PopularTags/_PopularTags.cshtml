@@ -4,7 +4,7 @@
     <ul>
         @foreach (TagViewModel tag in ViewBag.PopularTags)
         {
-            <li><a href="#">@tag.Name</a></li>
+            <li><a asp-controller="Post" asp-action="Search" asp-route-tags="@tag.Name">@tag.Name</a></li>
         }
     </ul>
 

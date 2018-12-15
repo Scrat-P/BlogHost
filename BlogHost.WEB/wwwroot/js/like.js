@@ -36,7 +36,9 @@ likeButton.addEventListener("click",
     function (event) {
         if (!isAuthenticated) return;
         const id = parseInt($("#PostId").val());
-        likeHubConnection.invoke("Like", id, isLiked);
+        likeHubConnection
+            .invoke("Like", id, isLiked)
+            .catch(err => console.error(err.toString()));
         isLiked = !isLiked;
         event.preventDefault();
     }

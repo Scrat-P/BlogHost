@@ -47,6 +47,21 @@ namespace BlogHost.BLL.Services
             }
         }
 
+        public IEnumerable<BlogDTO> Search(string title, string userName, int page, int pageSize, out int blogsCount)
+        {
+            IEnumerable<BlogDTO> blogs = _blogRepository
+                .GetAllBlogList().ToDTO();
+
+            blogs = blogs.Where(blog => string.IsNullOrEmpty(title) || blog.Title.ToLower().Contains(title.ToLower()));
+            blogs = blogs.Where(blog => string.IsNullOrEmpty(userName) || blog.Author.UserName == userName);
+
+
+            blogsCount = blogs.Count();
+            IEnumerable<BlogDTO> blogsPerPage = blogs.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return blogsPerPage;
+        }
+
         public BlogDTO GetBlog(int? id, ClaimsPrincipal currentUser, bool checkAccess = true)
         {
             if (checkAccess && !HasAccess(id, currentUser))

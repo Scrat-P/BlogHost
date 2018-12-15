@@ -9,6 +9,7 @@ namespace BlogHost.DAL.RepositoryInterfaces
     public interface IBlogRepository
     {
         IEnumerable<Blog> GetBlogList(ApplicationUser user);
+        IEnumerable<Blog> GetAllBlogList();
         void Create(Blog blog, ApplicationUser user);
         int? GetBlogId(string title);
         Blog GetBlog(int? id); 

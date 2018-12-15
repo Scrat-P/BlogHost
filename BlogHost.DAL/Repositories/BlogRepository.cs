@@ -20,9 +20,14 @@ namespace BlogHost.DAL.Repositories
 
         public IEnumerable<Blog> GetBlogList(ApplicationUser user)
         {
-            return _context.Blogs
-                .Include(author => author.Author)
+            return GetAllBlogList()
                 .Where(author => author.Author.Id == user.Id);
+        }
+
+        public IEnumerable<Blog> GetAllBlogList()
+        {
+            return _context.Blogs
+                .Include(author => author.Author);
         }
 
         public int? GetBlogId(string title)

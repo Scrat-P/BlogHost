@@ -63,7 +63,9 @@ if (isAuthenticated) {
     const addCommentButton = document.getElementById("addCommentButton");
     addCommentButton.addEventListener("click",
         function (event) {
-            commentHubConnection.invoke("Add", parseInt($("#PostId").val()), $("#Text").val());
+            commentHubConnection
+                .invoke("Add", parseInt($("#PostId").val()), $("#Text").val())
+                .catch(err => console.error(err.toString()));
             event.preventDefault();
         }
     );

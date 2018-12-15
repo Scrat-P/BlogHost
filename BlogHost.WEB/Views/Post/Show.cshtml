@@ -18,6 +18,7 @@
         {
             <img src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.ProfilePicture))">
         }
+        <>
     </div>
 
 
@@ -39,7 +40,7 @@
                             <ul class="tags">
                                 @foreach (PostTagViewModel postTag in Model.Tags)
                                 {
-                                    <li><a href="#">@postTag.Tag.Name</a></li>
+                                    <li><a asp-controller="Post" asp-action="Search" asp-route-tags="@postTag.Tag.Name">@postTag.Tag.Name</a></li>
                                 }
                             </ul>
                         </div><!-- blog-post-inner -->
@@ -78,7 +79,7 @@
                         <div class="post-footer post-info">
 
                             <div class="left-area">
-                                <a class="avatar" href="#">
+                                <a class="avatar" asp-controller="Blog" asp-action="Search" asp-route-author="@Model.Author.UserName">
                                     @{ var photo = UserService.GetProfilePicture(Model.Author.Id); }
                                     @if (photo == null)
                                     {
@@ -159,10 +160,6 @@
                             <div class="comment">
 
                                 <div class="post-info">
-
-                                    <!--<div class="left-area">
-                                        <a class="avatar" href="#"><img src="~/images/default-user-image.png" alt="Profile Image"></a>
-                                    </div>-->
 
                                     <div class="pull-left">
                                         <a class="name" href="#"><b>@comment.Author.UserName</b></a>

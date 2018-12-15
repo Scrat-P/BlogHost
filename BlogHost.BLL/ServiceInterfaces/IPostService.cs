@@ -16,6 +16,7 @@ namespace BlogHost.BLL.ServiceInterfaces
         void Create(PostDTO post, ClaimsPrincipal currentUser, int blogId, ICollection<string> tags);
         IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount);
         IEnumerable<PostDTO> GetPopularWeekPosts(int page, int pageSize, out int postsCount);
+        IEnumerable<PostDTO> Search(string title, ICollection<string> tags, int page, int pageSize, out int postsCount);
         void Like(int id, ClaimsPrincipal currentUser);
         void Unlike(int id, ClaimsPrincipal currentUser);
         bool IsLiked(int id, ClaimsPrincipal currentUser);

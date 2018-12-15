@@ -31,7 +31,7 @@
                                         }
                                     </div>
 
-                                    <a class="avatar" href="#">
+                                    <a class="avatar" asp-controller="Blog" asp-action="Search" asp-route-author="@post.Author.UserName">
                                         @{ var photo = UserService.GetProfilePicture(post.Author.Id); }
                                         @if (photo == null)
                                         {

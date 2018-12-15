@@ -99,6 +99,27 @@ namespace BlogHost.Controllers
             return View(viewModel);
         }
 
+        private IndexViewModel<T> GetPageModel<T>(int itemsCount, int pageNumber, int pageSize, IEnumerable<T> itemsPerPage)
+        {
+            PageViewModel pageViewModel = new PageViewModel(itemsCount, pageNumber, pageSize);
+            IndexViewModel<T> viewModel = new IndexViewModel<T>
+            {
+                PageViewModel = pageViewModel,
+                Items = itemsPerPage
+            };
+
+            return viewModel;
+        }
+
+        public IActionResult Search(string title = null, ICollection<string> tags = null, int page = 1, int pageSize = 9)
+        {
+            var postsPerPage = _postService.Search(title, tags, page, pageSize,  out int postsCount).ToVM();
+
+            var viewModel = GetPageModel(postsCount, page, pageSize, postsPerPage);
+            viewModel.Tags = tags;
+            return View(viewModel);
+        }
+
         [AllowAnonymous]
         public IActionResult Show(int? id)
         {

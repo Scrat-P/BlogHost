@@ -25,6 +25,18 @@ namespace BlogHost.BLL.Services
             _userRepository = userRepository;
         }
 
+        public IEnumerable<PostDTO> GetPopularWeekPosts(int page, int pageSize, out int postsCount)
+        {
+            IEnumerable<PostDTO> posts = _postRepository
+                .GetPopularWeekPostsList().ToDTO()
+                .OrderBy(post => post.Likes.Count + post.Comments.Count)
+                .Reverse();
+            postsCount = posts.Count();
+            IEnumerable<PostDTO> postsPerPage = posts.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return postsPerPage;
+        }
+
         private UserDTO GetUser(ClaimsPrincipal currentUser)
         {
             return _userRepository.GetUser(currentUser).ToDTO();
@@ -72,23 +84,33 @@ namespace BlogHost.BLL.Services
             );
         }
 
-        public IEnumerable<PostDTO> GetPopularWeekPosts(int page, int pageSize, out int postsCount)
+        public IEnumerable<PostDTO> Search(string title, ICollection<string> tags, int page, int pageSize, out int postsCount)
         {
             IEnumerable<PostDTO> posts = _postRepository
-                .GetPopularWeekPostsList().ToDTO()
-                .OrderBy(post => post.Likes.Count + post.Comments.Count)
-                .Reverse();
-            postsCount = posts.Count();
-            IEnumerable<PostDTO> postsPerPage = posts.Skip((page - 1) * pageSize).Take(pageSize);
+                .GetAllPostList().ToDTO();
 
-            return postsPerPage;
-        }
+            posts = posts.Where(post => string.IsNullOrEmpty(title) || post.Title.ToLower().Contains(title.ToLower()));
 
-        public IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount)
-        {
-            IEnumerable<PostDTO> posts = _postRepository.GetPostList(blogId).ToDTO();
-            postsCount = posts.Count();
-            IEnumerable<PostDTO> postsPerPage = posts.Skip((page - 1) * pageSize).Take(pageSize);
+            var filteredPosts = posts.Where(post => tags.Count() == 0 || post.Tags.Any(tag => tags.Contains(tag.Tag.Name)));
+
+            //var filteredPosts = new List<PostDTO>();
+            //foreach (PostDTO post in posts)
+            //{
+            //    bool IsValid = true;
+            //    foreach (string tag in tags)
+            //    {
+            //        bool IsExist = false;
+            //        foreach (PostTagDTO postTag in post.Tags)
+            //        {
+            //            if (postTag.Tag.Name == tag) IsExist = true;
+            //        }
+            //        if (!IsExist) IsValid = false;
+            //    }
+            //    if (IsValid) filteredPosts.Add(post);
+            //}
+
+            postsCount = filteredPosts.Count();
+            IEnumerable<PostDTO> postsPerPage = filteredPosts.Skip((page - 1) * pageSize).Take(pageSize);
 
             return postsPerPage;
         }
@@ -107,6 +129,15 @@ namespace BlogHost.BLL.Services
         {
             if (!currentUser.Identity.IsAuthenticated) return false;
             return _postRepository.IsLiked(id, _userRepository.GetUser(currentUser));
+        }
+
+        public IEnumerable<PostDTO> GetPagePosts(int page, int pageSize, int blogId, out int postsCount)
+        {
+            IEnumerable<PostDTO> posts = _postRepository.GetPostList(blogId).ToDTO();
+            postsCount = posts.Count();
+            IEnumerable<PostDTO> postsPerPage = posts.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return postsPerPage;
         }
     }
 }

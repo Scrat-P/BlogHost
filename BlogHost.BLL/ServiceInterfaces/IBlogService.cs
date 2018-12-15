@@ -15,6 +15,7 @@ namespace BlogHost.BLL.ServiceInterfaces
         void Edit(BlogDTO blog);
         int? GetBlogId(string title);
         void Create(BlogDTO blog, ClaimsPrincipal currentUser);
+        IEnumerable<BlogDTO> Search(string title, string userName, int page, int pageSize, out int blogsCount);
         IEnumerable<BlogDTO> GetPageBlogs(int page, int pageSize, ClaimsPrincipal currentUser, out int blogsCount);
     }
 }
