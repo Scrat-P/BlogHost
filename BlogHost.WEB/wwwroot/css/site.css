@@ -49,6 +49,20 @@
     background: none;
 }
 
+.sub-btn {
+    font-size: .8em;
+    border: 0;
+    outline: 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #D2E2FC;
+    background: #D2E2FC;
+}
+
+.sub-btn:hover {
+    background: none;
+}
+
 .danger-btn {
     font-size: .8em;
     border: 0;
