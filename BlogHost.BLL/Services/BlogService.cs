@@ -55,7 +55,6 @@ namespace BlogHost.BLL.Services
             blogs = blogs.Where(blog => string.IsNullOrEmpty(title) || blog.Title.ToLower().Contains(title.ToLower()));
             blogs = blogs.Where(blog => string.IsNullOrEmpty(userName) || blog.Author.UserName == userName);
 
-
             blogsCount = blogs.Count();
             IEnumerable<BlogDTO> blogsPerPage = blogs.Skip((page - 1) * pageSize).Take(pageSize);
 

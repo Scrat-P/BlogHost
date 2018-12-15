@@ -106,10 +106,6 @@ namespace BlogHost.WEB
                     defaults: new { controller = "Blog", action = "Show" },
                     constraints: new { clientRoute = new TitleConstraint() }
                 );
-                //routes.MapSpaFallbackRoute(
-                //    name: "alias",
-                //    defaults: new { controller = "Blog", action = "Show" }
-                //);
             });
         }
     }

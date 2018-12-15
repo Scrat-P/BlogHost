@@ -67,7 +67,7 @@
                                     <div class="mid-area">
                                         <a class="name" href="#"><b>@blog.Author.UserName</b></a>
                                     </div>
-                                    @*<div class="pull-right">
+                                    <div class="pull-right">
                                         @if (User.Identity.IsAuthenticated && BlogService.HasAccess(blog.Id, User))
                                         {
                                             <a asp-controller="Post" asp-action="Create" asp-route-blogId="@blog.Id" class="success-btn">Add new post</a>
@@ -78,7 +78,7 @@
                                                 </button>
                                             </form>
                                         }
-                                    </div>*@
+                                    </div>
                                 </div>
 
                             </div><!-- blog-right -->
