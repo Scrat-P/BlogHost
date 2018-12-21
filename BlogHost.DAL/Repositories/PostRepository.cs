@@ -166,6 +166,7 @@ namespace BlogHost.DAL.Repositories
                 .Include(user => user.Author)
                 .Include(blog => blog.Blog)
                 .Include(like => like.Likes)
+                .ThenInclude(like => like.Author)
                 .Include(tag => tag.Tags)
                 .ThenInclude(tag => tag.Tag)
                 .Include(comment => comment.Comments)
