@@ -1,12 +1,12 @@
-# Блогхост
+# Bloghost
 
-Возможности приложения:
+Application features:
 
-+ Регистрация пользователей; 
-+ Создание блогов;
-+ Создание и редактирование статей блога; 
-+ Тэги статей;
-+ Поиск по тэгам, тексту; 
-+ Комментирование статей; 
-+ Управление пользователями; 
-+ Модерирование статей и комментариев.
++ User registration; 
++ Creating blogs;
++ Creating and editing blog articles; 
++ Article tags;
++ Searching by tags, text, title; 
++ Commenting on articles; 
++ User management; 
++ Moderation of articles and comments.
